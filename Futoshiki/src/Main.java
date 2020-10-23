@@ -1,7 +1,7 @@
 public class Main {
 
 	public static void main(String[] args) {
-		Grid g = new Grid();
+		Grid g = new Grid(5);
 		g.assertNum("21", 2);
 		g.assertNum("23", 1);
 		g.assertNum("43", 5);

@@ -2,17 +2,28 @@ import java.util.*;
 
 public class Grid {
 
-	private HashMap<String,Square> squares = new HashMap<String,Square>();
+	private int size; //Size of the grid is size*size squares
+	private HashMap<String,Square> squares = new HashMap<String,Square>(); //Stores a map of references to squares
 	
-	public Grid() {
-		for(int i=1;i<=5;i++) {
-			for(int j=1;j<=5;j++) {
+	public Grid(int size) {
+		this.size = size;
+		
+		//Since we have one of each number per row, initialList contains the numbers 1 to size
+		ArrayList<Integer> initialList = new ArrayList<Integer>();
+		for(int i=1;i<=size;i++) {
+			initialList.add(i);
+		}
+		
+		//Create a series of squares, all with initial possibilities of any number
+		for(int i=1;i<=size;i++) {
+			for(int j=1;j<=size;j++) {
 				String s = String.valueOf(i)+String.valueOf(j);
-				squares.put(s,new Square(i,j,new ArrayList<Integer>(Arrays.asList(1,2,3,4,5))));
+				squares.put(s,new Square(i,j,initialList));
 			}
 		}
 	}
 	
+	//Allow the user to specify that a square contains a number
 	public void assertNum(String ref, int num) {
 		squares.get(ref).setNum(num);
 		squares.get(ref).alert();
@@ -20,33 +31,37 @@ public class Grid {
 		elimCol(ref.substring(1),num);
 	}
 	
-	//Asserts ref1 < ref2
+	//The user specifies that ref1 < ref2
 	public void assertLess(String ref1, String ref2) {
 		squares.get(ref1).lessThan(squares.get(ref2));
 		squares.get(ref2).greaterThan(squares.get(ref1));
 	}
 	
+	//The user has worked out that a certain square cannot be a certain number
 	public void assertNot(String ref, int num) {
 		squares.get(ref).elim(num);
 	}
 	
+	//Eliminates a possibility from every square in a row
 	public void elimRow(String row, int num) {
-		for(int i=1;i<=5;i++) {
+		for(int i=1;i<=size;i++) {
 			String ref = row+i;
 			squares.get(ref).elim(num);
 		}
 	}
 	
+	//Eliminates a possibility from every square in a column
 	public void elimCol(String col, int num) {
-		for(int i=1;i<=5;i++) {
+		for(int i=1;i<=size;i++) {
 			String ref = i+col;
 			squares.get(ref).elim(num);
 		}
 	}
 	
+	//If a certain number can only go in one square for a given row, then that square must contain that number
 	public void checkRow(String row) {
 		HashMap<Integer,Integer> occurs = new HashMap<Integer,Integer>();
-		for(int i=1;i<=5;i++) {
+		for(int i=1;i<=size;i++) {
 			String ref = row+i;
 			if(squares.get(ref).getNum() == -1) {
 				for(int x:squares.get(ref).getPoss()) {
@@ -60,7 +75,7 @@ public class Grid {
 		}
 		for(int x: occurs.keySet()) {
 			if(occurs.get(x) == 1) {
-				for(int i=1;i<=5;i++) {
+				for(int i=1;i<=size;i++) {
 					String ref = row+i;
 					if(squares.get(ref).getPoss().contains(x)) {
 						assertNum(ref,x);
@@ -70,10 +85,11 @@ public class Grid {
 			}
 		}
 	}
-	
+
+	//If a certain number can only go in one square for a given column, then that square must contain that number
 	public void checkCol(String col) {
 		HashMap<Integer,Integer> occurs = new HashMap<Integer,Integer>();
-		for(int i=1;i<=5;i++) {
+		for(int i=1;i<=size;i++) {
 			String ref = i+col;
 			if(squares.get(ref).getNum() == -1) {
 				for(int x:squares.get(ref).getPoss()) {
@@ -87,7 +103,7 @@ public class Grid {
 		}
 		for(int x: occurs.keySet()) {
 			if(occurs.get(x) == 1) {
-				for(int i=1;i<=5;i++) {
+				for(int i=1;i<=size;i++) {
 					String ref = i+col;
 					if(squares.get(ref).getPoss().contains(x)) {
 						assertNum(ref,x);
@@ -98,11 +114,12 @@ public class Grid {
 		}
 	}
 	
+	//Checks all rows, then checks all columns, then checks all squares and resolves any unalerted solves
 	public void fullCheck() {
-		for(int i=1;i<=5;i++) {
+		for(int i=1;i<=size;i++) {
 			checkRow(String.valueOf(i));
 		}
-		for(int i=1;i<=5;i++) {
+		for(int i=1;i<=size;i++) {
 			checkCol(String.valueOf(i));
 		}
 		for(String s:squares.keySet()) {
@@ -120,6 +137,7 @@ public class Grid {
 		return squares.get(ref);
 	}
 	
+	//Print solved squares
 	public void printNums() {
 		for(String s:squares.keySet()) {
 			int num = squares.get(s).getNum();
@@ -129,6 +147,7 @@ public class Grid {
 		}
 	}
 	
+	//Print possibilities for all squares
 	public void printPoss() {
 		for(String s:squares.keySet()) {
 			System.out.println(s + ':' + squares.get(s).getPoss());
