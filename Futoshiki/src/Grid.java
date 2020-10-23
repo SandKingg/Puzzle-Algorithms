@@ -8,16 +8,17 @@ public class Grid {
 	public Grid(int size) {
 		this.size = size;
 		
-		//Since we have one of each number per row, initialList contains the numbers 1 to size
-		ArrayList<Integer> initialList = new ArrayList<Integer>();
-		for(int i=1;i<=size;i++) {
-			initialList.add(i);
-		}
 		
 		//Create a series of squares, all with initial possibilities of any number
 		for(int i=1;i<=size;i++) {
 			for(int j=1;j<=size;j++) {
 				String s = String.valueOf(i)+String.valueOf(j);
+
+				//Since we have one of each number per row, initialList contains the numbers 1 to size
+				ArrayList<Integer> initialList = new ArrayList<Integer>();
+				for(int k=1;k<=size;k++) {
+					initialList.add(k);
+				}
 				squares.put(s,new Square(i,j,initialList));
 			}
 		}
@@ -152,5 +153,24 @@ public class Grid {
 		for(String s:squares.keySet()) {
 			System.out.println(s + ':' + squares.get(s).getPoss());
 		}
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		
+		for(int i=1;i<=size;i++) {
+			for(int j=1;j<=size;j++) {
+				String ref = String.valueOf(i)+String.valueOf(j);
+				if(squares.get(ref).getNum()==-1) {
+					sb.append("[ ]");
+				} else {
+					sb.append("["+squares.get(ref).getNum()+"]");
+				}
+			}
+			sb.append("\n");
+		}
+		
+		return sb.toString();
 	}
 }

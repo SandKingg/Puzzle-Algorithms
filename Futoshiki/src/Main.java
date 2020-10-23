@@ -19,7 +19,8 @@ public class Main {
 		g.assertLess("55", "45");
 		g.assertNot("34", 3);
 		g.fullCheck();
-		g.printPoss();
+		g.fullCheck();
+		System.out.println(g);
 	}
 	
 }
