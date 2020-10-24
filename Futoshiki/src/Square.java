@@ -78,6 +78,16 @@ public class Square {
 		if(number == -1) {
 			number = n;
 			possibilities.removeIf(x -> (x != n));
+			if(lessThan.size()!=0) {
+				for(Square s: lessThan) {
+					s.checkPoss();
+				}
+			}
+			if(greaterThan.size()!=0) {
+				for(Square s: greaterThan) {
+					s.checkPoss();
+				}
+			}
 		}
 	}
 	

@@ -27,9 +27,7 @@ public class Grid {
 	//Allow the user to specify that a square contains a number
 	public void assertNum(String ref, int num) {
 		squares.get(ref).setNum(num);
-		squares.get(ref).alert();
-		elimRow(ref.substring(0,1),num);
-		elimCol(ref.substring(1),num);
+		resolveAlert(ref);
 	}
 	
 	//The user specifies that ref1 < ref2
@@ -44,7 +42,7 @@ public class Grid {
 	}
 	
 	//Eliminates a possibility from every square in a row
-	public void elimRow(String row, int num) {
+	private void elimRow(String row, int num) {
 		for(int i=1;i<=size;i++) {
 			String ref = row+i;
 			squares.get(ref).elim(num);
@@ -52,7 +50,7 @@ public class Grid {
 	}
 	
 	//Eliminates a possibility from every square in a column
-	public void elimCol(String col, int num) {
+	private void elimCol(String col, int num) {
 		for(int i=1;i<=size;i++) {
 			String ref = i+col;
 			squares.get(ref).elim(num);
@@ -60,7 +58,7 @@ public class Grid {
 	}
 	
 	//If a certain number can only go in one square for a given row, then that square must contain that number
-	public void checkRow(String row) {
+	private void checkRow(String row) {
 		HashMap<Integer,Integer> occurs = new HashMap<Integer,Integer>();
 		for(int i=1;i<=size;i++) {
 			String ref = row+i;
@@ -88,7 +86,7 @@ public class Grid {
 	}
 
 	//If a certain number can only go in one square for a given column, then that square must contain that number
-	public void checkCol(String col) {
+	private void checkCol(String col) {
 		HashMap<Integer,Integer> occurs = new HashMap<Integer,Integer>();
 		for(int i=1;i<=size;i++) {
 			String ref = i+col;
@@ -117,21 +115,42 @@ public class Grid {
 	
 	//Checks all rows, then checks all columns, then checks all squares and resolves any unalerted solves
 	public void fullCheck() {
+		boolean test;
+		do {
+			 test = resolveAlerts();
+		} while(test);
 		for(int i=1;i<=size;i++) {
 			checkRow(String.valueOf(i));
 		}
 		for(int i=1;i<=size;i++) {
 			checkCol(String.valueOf(i));
 		}
+		do {
+			 test = resolveAlerts();
+		} while(test);
+	}
+	
+	private boolean resolveAlerts() {
+		boolean changed = false;
 		for(String s:squares.keySet()) {
-			squares.get(s).checkPoss();
-			if(!squares.get(s).checkAlert()) {
-				squares.get(s).alert();
-				int num = squares.get(s).getNum();
-				elimRow(s.substring(0,1),num);
-				elimCol(s.substring(1),num);
+			boolean test = resolveAlert(s);
+			if(!changed && test) {
+				changed = true;
 			}
 		}
+		return changed;
+	}
+	
+	private boolean resolveAlert(String s) {
+		squares.get(s).checkPoss();
+		if(!squares.get(s).checkAlert()) {
+			squares.get(s).alert();
+			int num = squares.get(s).getNum();
+			elimRow(s.substring(0,1),num);
+			elimCol(s.substring(1),num);
+			return true;
+		}
+		return false;
 	}
 	
 	public Square getSquare(String ref) {
