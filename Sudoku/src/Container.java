@@ -18,11 +18,13 @@ public abstract class Container {
 	public void check() {
 		HashMap<Integer,Integer> occurs = new HashMap<Integer,Integer>();
 		for(Square s: squares) {
-			for(int i: s.getPoss()) {
-				if(occurs.containsKey(i)) {
-					occurs.put(i, occurs.get(i)+1);
-				} else {
-					occurs.put(i, 1);
+			if(s.getNum() == -1) {
+				for(int i: s.getPoss()) {
+					if(occurs.containsKey(i)) {
+						occurs.put(i, occurs.get(i)+1);
+					} else {
+						occurs.put(i, 1);
+					}
 				}
 			}
 		}
@@ -35,6 +37,27 @@ public abstract class Container {
 				}
 			}
 		}
+	}
+	
+	public boolean hintCheck() {
+		HashMap<Integer,Integer> occurs = new HashMap<Integer,Integer>();
+		for(Square s: squares) {
+			if(s.getNum() == -1) {
+				for(int i: s.getPoss()) {
+					if(occurs.containsKey(i)) {
+						occurs.put(i, occurs.get(i)+1);
+					} else {
+						occurs.put(i, 1);
+					}
+				}
+			}
+		}
+		for(int i: occurs.keySet()) {
+			if(occurs.get(i)==1) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public ArrayList<Square> getSquares() {

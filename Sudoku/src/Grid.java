@@ -61,6 +61,23 @@ public class Grid {
 		}
 	}
 	
+	public void getHint() {
+		for(int i=1;i<=9;i++) {
+			if(rows.get(i).hintCheck()) {
+				System.out.println("Row "+i);
+				break;
+			}
+			if(cols.get(i).hintCheck()) {
+				System.out.println("Column "+i);
+				break;
+			}
+			if(boxes.get(i).hintCheck()) {
+				System.out.println("Box "+i);
+				break;
+			}
+		}
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
