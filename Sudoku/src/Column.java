@@ -1,20 +1,10 @@
-import java.util.ArrayList;
+public class Column extends Container {
 
-public class Column {
-
-	private ArrayList<Square> squares = new ArrayList<Square>();
-	private int id;
-	
 	public Column(int id) {
-		this.id = id;
+		super(id);
 	}
-	
-	public void elim(int num) {
-		for(Square s: squares) {
-			s.elim(num);
-		}
-	}
-	
+
+	@Override
 	public void addSquare(Square s) {
 		squares.add(s);
 		s.setCol(this);

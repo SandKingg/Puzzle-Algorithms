@@ -35,6 +35,10 @@ public class Square {
 		return number;
 	}
 	
+	public ArrayList<Integer> getPoss() {
+		return possibilities;
+	}
+	
 	public void setRow(Row r) {
 		row = r;
 	}

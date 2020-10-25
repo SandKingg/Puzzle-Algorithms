@@ -53,6 +53,14 @@ public class Grid {
 		s.setNum(num);
 	}
 	
+	public void fullCheck() {
+		for(int i=1;i<=9;i++) {
+			rows.get(i).check();
+			cols.get(i).check();
+			boxes.get(i).check();
+		}
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
