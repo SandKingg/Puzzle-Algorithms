@@ -39,6 +39,18 @@ public class Square {
 		return possibilities;
 	}
 	
+	public Row getRow() {
+		return row;
+	}
+	
+	public Column getCol() {
+		return col;
+	}
+	
+	public Box getBox() {
+		return box;
+	}
+	
 	public void setRow(Row r) {
 		row = r;
 	}

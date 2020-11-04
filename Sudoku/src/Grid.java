@@ -53,11 +53,19 @@ public class Grid {
 		s.setNum(num);
 	}
 	
-	public void fullCheck() {
+	public void fullNumCheck() {
 		for(int i=1;i<=9;i++) {
 			rows.get(i).check();
 			cols.get(i).check();
 			boxes.get(i).check();
+		}
+	}
+	
+	public void pairCheck() {
+		for(int i=1;i<=9;i++) {
+			rows.get(i).checkPairs();
+			cols.get(i).checkPairs();
+			boxes.get(i).checkPairs();
 		}
 	}
 	
