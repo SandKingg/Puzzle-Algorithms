@@ -13,7 +13,7 @@ public class Box extends Container {
 	}
 	
 	@Override
-	public void checkPairs() {
+	public void checkPointers() {
 		//Check box rows
 		for(int i=0;i<9;i+=3) {
 			Square s1 = squares.get(i);

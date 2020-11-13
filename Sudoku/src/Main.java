@@ -5,8 +5,10 @@ public class Main {
 		Grid g = new Grid("input.txt");
 		g.fullNumCheck();
 		g.fullNumCheck();
-		g.pairCheck();
-		g.pairCheck();
+		g.pointerCheck();
+		g.pointerCheck();
+		g.nakedSetCheck();
+		g.nakedSetCheck();
 		g.fullNumCheck();
 		//g.getHint();
 		System.out.println(g);

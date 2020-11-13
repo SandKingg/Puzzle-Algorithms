@@ -14,7 +14,7 @@ public class Row extends Container {
 	}
 	
 	@Override
-	public void checkPairs() {
+	public void checkPointers() {
 		for(int i=0;i<9;i+=3) {
 			Square s1 = squares.get(i);
 			Square s2 = squares.get(i+1);

@@ -61,11 +61,19 @@ public class Grid {
 		}
 	}
 	
-	public void pairCheck() {
+	public void pointerCheck() {
 		for(int i=1;i<=9;i++) {
-			rows.get(i).checkPairs();
-			cols.get(i).checkPairs();
-			boxes.get(i).checkPairs();
+			rows.get(i).checkPointers();
+			cols.get(i).checkPointers();
+			boxes.get(i).checkPointers();
+		}
+	}
+	
+	public void nakedSetCheck() {
+		for(int i=1;i<=9;i++) {
+			rows.get(i).checkNakedSets();
+			cols.get(i).checkNakedSets();
+			boxes.get(i).checkNakedSets();
 		}
 	}
 	
