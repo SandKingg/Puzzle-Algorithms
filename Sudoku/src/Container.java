@@ -15,7 +15,7 @@ public abstract class Container {
 		}
 	}
 
-	public void check() {
+	public void numCheck() {
 		HashMap<Integer,Integer> occurs = new HashMap<Integer,Integer>();
 		for(Square s: squares) {
 			if(s.getNum() == -1) {

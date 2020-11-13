@@ -53,15 +53,15 @@ public class Grid {
 		s.setNum(num);
 	}
 	
-	public void fullNumCheck() {
+	private void numCheck() {
 		for(int i=1;i<=9;i++) {
-			rows.get(i).check();
-			cols.get(i).check();
-			boxes.get(i).check();
+			rows.get(i).numCheck();
+			cols.get(i).numCheck();
+			boxes.get(i).numCheck();
 		}
 	}
 	
-	public void pointerCheck() {
+	private void pointerCheck() {
 		for(int i=1;i<=9;i++) {
 			rows.get(i).checkPointers();
 			cols.get(i).checkPointers();
@@ -69,7 +69,7 @@ public class Grid {
 		}
 	}
 	
-	public void nakedSetCheck() {
+	private void nakedSetCheck() {
 		for(int i=1;i<=9;i++) {
 			rows.get(i).checkNakedSets();
 			cols.get(i).checkNakedSets();
@@ -92,6 +92,25 @@ public class Grid {
 				break;
 			}
 		}
+	}
+	
+	public void fullCheck() {
+		while(!complete()) {
+			numCheck();
+			pointerCheck();
+			nakedSetCheck();
+		}
+	}
+	
+	private boolean complete() {
+		for(Row r:rows.values()) {
+			for(Square s:r.getSquares()) {
+				if(s.getNum()==-1) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 	
 	@Override
