@@ -15,7 +15,7 @@ public abstract class Container {
 		}
 	}
 
-	public void numCheck() {
+	public void checkNums() {
 		HashMap<Integer,Integer> occurs = new HashMap<Integer,Integer>();
 		for(Square s: squares) {
 			if(s.getNum() == -1) {
@@ -39,7 +39,7 @@ public abstract class Container {
 		}
 	}
 	
-	public boolean hintCheck() {
+	public boolean hintNums() {
 		HashMap<Integer,Integer> occurs = new HashMap<Integer,Integer>();
 		for(Square s: squares) {
 			if(s.getNum() == -1) {
@@ -146,25 +146,85 @@ public abstract class Container {
 											if(isNakedSet(sqs)) {
 												elimAllExcept(getPossSet(sqs),sqs);
 											}
-											
 											sqs.remove(se);
 										}
 									}
-									
 									sqs.remove(sd);
 								}
 							}
-							
 							sqs.remove(sc);
 						}
 					}
-					
 					sqs.remove(sb);
 				}
-				
 				sqs.remove(sa);
 			}
 		}
+	}
+	
+	public boolean hintNakedSets() {
+		//Get unsolved squares
+		ArrayList<Square> unsolved = new ArrayList<Square>();
+		for(Square s: squares) {
+			if(s.getNum()==-1) {
+				unsolved.add(s);
+			}
+		}
+		
+		//Check naked pairs
+		if(unsolved.size() > 2) {
+			ArrayList<Square> sqs = new ArrayList<Square>();
+			for(int a=0;a<unsolved.size();a++) {
+				Square sa = unsolved.get(a);
+				sqs.add(sa);
+				for(int b=a+1;b<unsolved.size();b++) {
+					Square sb = unsolved.get(b);
+					sqs.add(sb);
+					if(isNakedSet(sqs)) {
+						return true;
+					}
+					
+					//Check naked triples
+					if(unsolved.size() > 3) {
+						for(int c=b+1;c<unsolved.size();c++) {
+							Square sc = unsolved.get(c);
+							sqs.add(sc);
+							if(isNakedSet(sqs)) {
+								return true;
+							}
+							
+							//Check naked quads
+							if(unsolved.size() > 4) {
+								for(int d=c+1;d<unsolved.size();d++) {
+									Square sd = unsolved.get(d);
+									sqs.add(sd);
+									if(isNakedSet(sqs)) {
+										return true;
+									}
+									
+									//Check naked quints
+									if(unsolved.size() > 5) {
+										for(int e=d+1;e<unsolved.size();e++) {
+											Square se = unsolved.get(e);
+											sqs.add(se);
+											if(isNakedSet(sqs)) {
+												return true;
+											}
+											sqs.remove(se);
+										}
+									}
+									sqs.remove(sd);
+								}
+							}
+							sqs.remove(sc);
+						}
+					}
+					sqs.remove(sb);
+				}
+				sqs.remove(sa);
+			}
+		}
+		return false;
 	}
 	
 	private HashSet<Integer> getPossSet(ArrayList<Square> sqs) {
@@ -188,4 +248,6 @@ public abstract class Container {
 	public abstract void addSquare(Square s);
 	
 	public abstract void checkPointers();
+	
+	public abstract boolean hintPointers();
 }

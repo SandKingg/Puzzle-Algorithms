@@ -55,9 +55,9 @@ public class Grid {
 	
 	private void numCheck() {
 		for(int i=1;i<=9;i++) {
-			rows.get(i).numCheck();
-			cols.get(i).numCheck();
-			boxes.get(i).numCheck();
+			rows.get(i).checkNums();
+			cols.get(i).checkNums();
+			boxes.get(i).checkNums();
 		}
 	}
 	
@@ -77,20 +77,67 @@ public class Grid {
 		}
 	}
 	
-	public void getHint() {
+	private String numHint() {
 		for(int i=1;i<=9;i++) {
-			if(rows.get(i).hintCheck()) {
-				System.out.println("Row "+i);
-				break;
+			if(rows.get(i).hintNums()) {
+				return "Row "+i+": number.";
 			}
-			if(cols.get(i).hintCheck()) {
-				System.out.println("Column "+i);
-				break;
+			if(cols.get(i).hintNums()) {
+				return "Column "+i+": number.";
 			}
-			if(boxes.get(i).hintCheck()) {
-				System.out.println("Box "+i);
-				break;
+			if(boxes.get(i).hintNums()) {
+				return "Box "+i+": number.";
 			}
+		}
+		return "";
+	}
+	
+	private String pointerHint() {
+		for(int i=1;i<=9;i++) {
+			if(rows.get(i).hintPointers()) {
+				return "Row "+i+": pointer.";
+			}
+			if(cols.get(i).hintPointers()) {
+				return "Column "+i+": pointer.";
+			}
+			if(boxes.get(i).hintPointers()) {
+				return "Box "+i+": pointer.";
+			}
+		}
+		return "";
+	}
+	
+	private String nakedSetHint() {
+		for(int i=1;i<=9;i++) {
+			if(rows.get(i).hintNakedSets()) {
+				return "Row "+i+": naked set.";
+			}
+			if(cols.get(i).hintNakedSets()) {
+				return "Column "+i+": naked set.";
+			}
+			if(boxes.get(i).hintNakedSets()) {
+				return "Box "+i+": naked set.";
+			}
+		}
+		return "";
+	}
+	
+	public void getHint() {
+		String numHint = numHint();
+		if(numHint.equals("")) {
+			String pointerHint = pointerHint();
+			if(pointerHint.equals("")) {
+				String nakedSetHint = nakedSetHint();
+				if(nakedSetHint.equals("")) {
+					System.out.println("No hints available.");
+				} else {
+					System.out.println(nakedSetHint);
+				}
+			} else {
+				System.out.println(pointerHint);
+			}
+		} else {
+			System.out.println(numHint);
 		}
 	}
 	
