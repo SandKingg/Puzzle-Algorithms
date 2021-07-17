@@ -20,6 +20,16 @@ public class Grid {
 		}
 	}
 	
+	public void solve() {
+		for(int i=1;i<=height;i++) {
+			rows.get(i).initialFills();
+		}
+		
+		for(int i=1;i<=width;i++) {
+			cols.get(i).initialFills();
+		}
+	}
+	
 	private void parse(String file) {
 		try {
 			BufferedReader in = new BufferedReader(new FileReader(file));
@@ -31,14 +41,14 @@ public class Grid {
 				String[] lineNumberStr = in.readLine().split(" ");
 				int[] lineNumbers = StrToIntArray(lineNumberStr);
 				
-				rows.put(i, new Row(i,lineNumbers));
+				rows.put(i, new Row(i,lineNumbers,width));
 			}
 			
 			for(int i=1;i<=width;i++) {
 				String[] lineNumberStr = in.readLine().split(" ");
 				int[] lineNumbers = StrToIntArray(lineNumberStr);
 				
-				cols.put(i, new Column(i,lineNumbers));
+				cols.put(i, new Column(i,lineNumbers,height));
 			}
 			
 			in.close();
@@ -53,6 +63,16 @@ public class Grid {
 		}
 		
 		return output;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		for(int i=1;i<=height;i++) {
+			sb.append(rows.get(i).toString());
+			sb.append('\n');
+		}
+		return sb.toString();
 	}
 	
 }

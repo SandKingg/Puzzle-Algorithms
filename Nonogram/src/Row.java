@@ -1,7 +1,7 @@
 public class Row extends Line {
 
-	public Row(int id, int[] numbers) {
-		super(id,numbers);
+	public Row(int id, int[] numbers, int size) {
+		super(id,numbers,size);
 	}
 
 	@Override
