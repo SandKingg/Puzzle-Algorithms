@@ -58,16 +58,54 @@ public abstract class Line {
 	
 	private void checkComplete() {
 		if(!complete) {
-			boolean foundUnknown = false;
-			for(Square s:squares) {
-				if(s.getValue().equals(SquareValue.UNKNOWN)) {
-					foundUnknown = true;
-					break;
+			int[] currentNums = generateLineNumbers(this.toString());
+			if(Arrays.equals(currentNums,numbers)) {
+
+				blankAllUnknowns();
+				
+				boolean foundUnknown = false;
+				for(Square s:squares) {
+					if(s.getValue().equals(SquareValue.UNKNOWN)) {
+						foundUnknown = true;
+						break;
+					}
+				}
+				
+				if(!foundUnknown) {
+					complete = true;
 				}
 			}
-			
-			if(!foundUnknown) {
-				complete = true;
+		}
+	}
+	
+	private int[] generateLineNumbers(String line) {
+		String[] marks = line.split("[?-]+");
+		int markSize;
+		if(marks.length == 0) {
+			return new int[] {0};
+		} else if(marks[0].equals("")) {
+			markSize = marks.length - 1;
+		} else {
+			markSize = marks.length;
+		}
+		
+		int[] output = new int[markSize];
+		int counter = 0;
+		
+		for(String s:marks) {
+			if(!s.equals("")) {
+				output[counter] = s.length();
+				counter++;
+			}
+		}
+		
+		return output;
+	}
+	
+	private void blankAllUnknowns() {
+		for(Square s:squares) {
+			if(s.getValue().equals(SquareValue.UNKNOWN)) {
+				s.setValue(SquareValue.BLANK);
 			}
 		}
 	}
@@ -84,13 +122,13 @@ public abstract class Line {
 		for(Square s:squares) {
 			switch(s.getValue()) {
 				case BLANK:
-					sb.append('X');
+					sb.append('-');
 					break;
 				case FILLED:
 					sb.append('*');
 					break;
 				case UNKNOWN:
-					sb.append('-');
+					sb.append('?');
 					break;
 			}
 		}
